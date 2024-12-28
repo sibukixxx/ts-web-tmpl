@@ -1,0 +1,61 @@
+name: CI
+
+on:
+  push:
+    paths:
+      - 'src/**/*.ts'
+      - 'src/**/*.tsx'
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      # リポジトリのチェックアウト
+      - uses: actions/checkout@v3
+
+      # Node.js セットアップ (v18)
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      # pnpm CLIインストール
+      # （pnpm v8系など、必要に応じてバージョン指定も可能）
+      - name: Setup pnpm
+        run: npm install -g pnpm
+
+      # node_modules のキャッシュ
+      - uses: actions/cache@v3
+        id: cache_node_modules
+        with:
+          path: |
+            **/node_modules
+          # package.json だけでなく、pnpm-lock.yaml などもハッシュに含める
+          key: node_modules-${{ hashFiles('src/package.json', 'src/pnpm-lock.yaml') }}
+
+      # 依存インストール (キャッシュがヒットしなかった場合のみ実行)
+      - name: Install dependencies
+        if: steps.cache_node_modules.outputs.cache-hit != 'true'
+        run: |
+          cd src
+          pnpm install --no-frozen-lockfile
+
+      # TypeScript チェック（フロント＆バック両方）
+      - name: TypeScript check
+        run: |
+          cd src
+          pnpm tsc --noEmit
+
+      # Prettier チェック（プロジェクト全体）
+      - name: Prettier check
+        run: |
+          cd src
+          pnpm run format:check
+
+      # 追加で ESLint, テスト等も実行する場合
+#      - name: ESLint
+#        run: pnpm --filter ./src run lint:all
+
+#      - name: Test
+#        run: |
+#          pnpm --filter ./frontend test --coverage
+#          pnpm --filter ./backend test --coverage
