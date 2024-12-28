@@ -1,14 +1,10 @@
-import { Hono } from 'hono'
-import { handle } from 'hono/vercel'
+import { NextRequest } from 'next/server'
+import { app } from '@/backend/hono/app'
 
-export const runtime = 'edge'
+export async function GET(req: NextRequest) {
+  return app.fetch(req)
+}
 
-const app = new Hono().basePath('/api')
-
-app.get('/hello', (c) => {
-  return c.json({
-    message: 'Hello from Hono!'
-  })
-})
-
-export const GET = handle(app)
+export async function POST(req: NextRequest) {
+  return app.fetch(req)
+}
