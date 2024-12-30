@@ -15,7 +15,7 @@ export const ROUTE_PATHS = {
     settings: '/admin/settings',
     analytics: '/admin/analytics',
   },
-} as const;
+} as const
 
 export const DYNAMIC_ROUTE_PATTERNS = {
   public: {
@@ -29,4 +29,4 @@ export const DYNAMIC_ROUTE_PATTERNS = {
     userManagement: '/admin/users/:userId',
     userPosts: '/admin/users/:userId/posts',
   },
-} as const;
+} as const

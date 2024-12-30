@@ -1,26 +1,26 @@
-'use client';
+'use client'
 
-import React, { useState } from 'react';
-import { useTypeSafeNavigation } from '@/hooks/useTypeSafeNavigation';
+import React, { useState } from 'react'
+import { useTypeSafeNavigation } from '@/hooks/useTypeSafeNavigation'
 
 export default function Login() {
-  const { updateRole, navigateStatic } = useTypeSafeNavigation();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const { updateRole, navigateStatic } = useTypeSafeNavigation()
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
 
   const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
+    e.preventDefault()
 
     // ここで実際の認証処理を行う
     // 例としてemail によってロールを変更
     if (email.includes('admin')) {
-      updateRole('admin');
+      updateRole('admin')
     } else {
-      updateRole('user');
+      updateRole('user')
     }
 
-    navigateStatic('public', 'home');
-  };
+    navigateStatic('public', 'home')
+  }
 
   return (
     <div>
@@ -29,9 +29,7 @@ export default function Login() {
           <h1 className="text-2xl font-bold mb-6">ログイン</h1>
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700">
-                メールアドレス
-              </label>
+              <label className="block text-sm font-medium text-gray-700">メールアドレス</label>
               <input
                 type="email"
                 value={email}
@@ -41,9 +39,7 @@ export default function Login() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700">
-                パスワード
-              </label>
+              <label className="block text-sm font-medium text-gray-700">パスワード</label>
               <input
                 type="password"
                 value={password}
@@ -62,5 +58,5 @@ export default function Login() {
         </div>
       </main>
     </div>
-  );
+  )
 }

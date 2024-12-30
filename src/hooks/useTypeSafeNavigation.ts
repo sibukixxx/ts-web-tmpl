@@ -1,8 +1,8 @@
-'use client';
+'use client'
 
-import { useCallback } from 'react';
-import { useNavigationContext } from '@/providers/NavigationProvider';
-import type {  } from '@/lib/routing/types';
+import { useCallback } from 'react'
+import { useNavigationContext } from '@/providers/NavigationProvider'
+import type {} from '@/lib/routing/types'
 import type {
   RouteSection,
   RouteKey,
@@ -11,37 +11,40 @@ import type {
   RouteParams,
   QueryParams,
   UserRole,
-} from '@/lib/routing/types';
+} from '@/lib/routing/types'
 
 export function useTypeSafeNavigation() {
-  const { router, loading } = useNavigationContext();
+  const { router, loading } = useNavigationContext()
 
   const navigate = useCallback(
     <TSection extends DynamicRouteSection, TRoute extends DynamicRouteKey<TSection>>(
       section: TSection,
       route: TRoute,
       params: RouteParams<TSection, TRoute>,
-      query?: QueryParams
+      query?: QueryParams,
     ) => {
-      return router.navigateToDynamic(section, route, params, query);
+      return router.navigateToDynamic(section, route, params, query)
     },
-    [router]
-  );
+    [router],
+  )
 
   const navigateStatic = useCallback(
     <TSection extends RouteSection, TRoute extends RouteKey<TSection>>(
       section: TSection,
       route: TRoute,
-      query?: QueryParams
+      query?: QueryParams,
     ) => {
-      return router.navigateToStatic(section, route, query);
+      return router.navigateToStatic(section, route, query)
     },
-    [router]
-  );
+    [router],
+  )
 
-  const updateRole = useCallback((role: UserRole) => {
-    router.updateUserRole(role);
-  }, [router]);
+  const updateRole = useCallback(
+    (role: UserRole) => {
+      router.updateUserRole(role)
+    },
+    [router],
+  )
 
   return {
     navigate,
@@ -53,5 +56,5 @@ export function useTypeSafeNavigation() {
     breadcrumbs: router.getBreadcrumbs(),
     goBack: router.goBack.bind(router),
     goForward: router.goForward.bind(router),
-  };
+  }
 }

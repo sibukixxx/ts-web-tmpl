@@ -1,4 +1,4 @@
-import { Middleware, MiddlewareContext } from './types';
+import { Middleware, MiddlewareContext } from './types'
 
 export const loggingMiddleware: Middleware = async (context, next) => {
   console.log(`Navigation requested: ${context.path}`, {
@@ -6,15 +6,15 @@ export const loggingMiddleware: Middleware = async (context, next) => {
     query: context.query,
     role: context.role,
     timestamp: new Date().toISOString(),
-  });
-  return next();
-};
+  })
+  return next()
+}
 
 export const errorLoggingMiddleware: Middleware = async (context, next) => {
   try {
-    return await next();
+    return await next()
   } catch (error) {
-    console.error('Navigation error:', error);
-    throw error;
+    console.error('Navigation error:', error)
+    throw error
   }
-};
+}

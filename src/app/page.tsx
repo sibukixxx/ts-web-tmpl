@@ -1,10 +1,10 @@
 'use client'
 import { useEffect, useState } from 'react'
-import { useTypeSafeNavigation } from '@/hooks/useTypeSafeNavigation';
-import { Header } from '@/components/Navigation/Header';
+import { useTypeSafeNavigation } from '@/hooks/useTypeSafeNavigation'
+import { Header } from '@/components/Navigation/Header'
 
 export default function Home() {
-  const { currentRole } = useTypeSafeNavigation();
+  const { currentRole } = useTypeSafeNavigation()
 
   const [users, setUsers] = useState<any[]>([])
 

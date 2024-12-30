@@ -1,4 +1,4 @@
-import { ValidationRules } from './types';
+import { ValidationRules } from './types'
 
 export const defaultValidationRules: Record<string, ValidationRules> = {
   '/users/:userId': {
@@ -13,4 +13,4 @@ export const defaultValidationRules: Record<string, ValidationRules> = {
       errorMessage: '無効な投稿IDです',
     },
   },
-};
+}

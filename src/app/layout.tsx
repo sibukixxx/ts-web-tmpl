@@ -1,6 +1,6 @@
-import React from "react";
+import React from 'react'
 import type { Metadata } from 'next'
-import { NavigationProvider } from '@/providers/NavigationProvider';
+import { NavigationProvider } from '@/providers/NavigationProvider'
 
 export const metadata: Metadata = {
   title: 'Hono | nextjs',
@@ -14,11 +14,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
-    <body>
-    <NavigationProvider>
-      {children}
-    </NavigationProvider>
-    </body>
+      <body>
+        <NavigationProvider>{children}</NavigationProvider>
+      </body>
     </html>
   )
 }

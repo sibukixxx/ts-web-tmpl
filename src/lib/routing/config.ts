@@ -1,5 +1,5 @@
-import { RouteConfig } from './types';
-import { authGuard, adminGuard } from './guards';
+import { RouteConfig } from './types'
+import { authGuard, adminGuard } from './guards'
 
 export const defaultRouteConfig: RouteConfig = {
   public: {
@@ -86,4 +86,4 @@ export const defaultRouteConfig: RouteConfig = {
       },
     },
   },
-};
+}

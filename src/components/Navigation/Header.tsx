@@ -1,14 +1,14 @@
-'use client';
+'use client'
 
-import { useTypeSafeNavigation } from '@/hooks/useTypeSafeNavigation';
+import { useTypeSafeNavigation } from '@/hooks/useTypeSafeNavigation'
 
 export function Header() {
-  const { navigateStatic, currentRole, updateRole } = useTypeSafeNavigation();
+  const { navigateStatic, currentRole, updateRole } = useTypeSafeNavigation()
 
   const handleLogout = () => {
-    updateRole('guest');
-    navigateStatic('public', 'login');
-  };
+    updateRole('guest')
+    navigateStatic('public', 'login')
+  }
 
   return (
     <header className="bg-white shadow">
@@ -63,15 +63,12 @@ export function Header() {
               </button>
             </div>
           ) : (
-            <button
-              onClick={handleLogout}
-              className="text-red-600 hover:text-red-800"
-            >
+            <button onClick={handleLogout} className="text-red-600 hover:text-red-800">
               ログアウト
             </button>
           )}
         </div>
       </nav>
     </header>
-  );
+  )
 }

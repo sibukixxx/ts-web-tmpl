@@ -1,17 +1,17 @@
-'use client';
+'use client'
 
-import { useTypeSafeNavigation } from '@/hooks/useTypeSafeNavigation';
-import { useEffect } from 'react';
+import { useTypeSafeNavigation } from '@/hooks/useTypeSafeNavigation'
+import { useEffect } from 'react'
 
 export default function Profile() {
-  const { currentRole, navigateStatic } = useTypeSafeNavigation();
+  const { currentRole, navigateStatic } = useTypeSafeNavigation()
 
   // 認証されていないユーザーをリダイレクト
   useEffect(() => {
     if (currentRole === 'guest') {
-      navigateStatic('public', 'login');
+      navigateStatic('public', 'login')
     }
-  }, [currentRole, navigateStatic]);
+  }, [currentRole, navigateStatic])
 
   // if (currentRole === 'guest') return null;
 
@@ -30,5 +30,5 @@ export default function Profile() {
         </div>
       </main>
     </div>
-  );
+  )
 }
