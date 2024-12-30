@@ -11,8 +11,6 @@ app.get('/user', (c: Context) => {
 app.get('/users', (c: Context) => {
   return c.json([
     { id: 1, name: 'Alice' },
-
-    { id: 1, name: 'Alice' },
     { id: 2, name: 'Bob' },
   ])
 })
