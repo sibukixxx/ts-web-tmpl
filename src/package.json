@@ -7,7 +7,11 @@
     "lint:next": "next lint",
     "lint:all": "eslint . --ext .ts,.tsx --max-warnings=0",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "check:types": "tsc --noEmit",
+    "check:spell": "git diff --name-only | cspell --no-summary --no-progress --no-must-find-files --file-list stdin",
+    "check:all": "concurrently \"pnpm lint\" \"pnpm check:types\" \"pnpm check:spell\"",
+    "pre-commit": "concurrently \"lint-staged --allow-empty\" \"pnpm check:types\" \"pnpm check:spell\""
   },
   "dependencies": {
     "@hono/zod-openapi": "^0.18.3",
@@ -23,6 +27,8 @@
     "zod-openapi": "^4.2.2"
   },
   "devDependencies": {
+    "@commitlint/cli": "^19.6.1",
+    "@commitlint/config-conventional": "^19.6.0",
     "@faker-js/faker": "^9.3.0",
     "@hono/swagger-ui": "^0.5.0",
     "@types/node": "^20.0.0",
