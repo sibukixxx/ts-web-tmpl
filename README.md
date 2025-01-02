@@ -1,5 +1,13 @@
 # ts-web-tmpl
-Next.js + Hono + Supabase 
+Next.js + Hono + Supabase
+
+## local development
+
+DB 
+
+supabase cli docker 
+
+
 
 ### cf
 
