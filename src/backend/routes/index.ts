@@ -3,7 +3,7 @@ import {
   loginRequestSchema,
   loginResponseSchema,
   userListResponseSchema,
-} from '@/shared/schemas/auth-schemas'
+} from '@/shared/schemas/apis/auth-schemas'
 import { z } from 'zod'
 
 // API_ROUTES は簡易的な型と path を定義
@@ -77,14 +77,9 @@ const authLoginRoute = createRoute({
 export const API_ROUTES = {
   users: {
     getUsers: usersGetRoute,
-    // createUser: createRoute({...}),
-    // getUserById: createRoute({...}),
-    // ... など拡張
   },
   auth: {
     login: authLoginRoute,
-    // logout: createRoute({...}),
-    // ... など拡張
   },
 } as const
 
