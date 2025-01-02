@@ -1,4 +1,4 @@
-import { z } from './zod-setup'
+import { z } from '../zod-setup'
 
 export const loginRequestSchema = z
   .object({

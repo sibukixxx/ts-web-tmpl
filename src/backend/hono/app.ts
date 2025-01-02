@@ -1,6 +1,7 @@
-import { API_ROUTES } from '@/shared/types/api'
+import { API_ROUTES } from '@/backend/routes'
 import { OpenAPIHono } from '@hono/zod-openapi'
 import { swaggerUI } from '@hono/swagger-ui'
+import { makeRegisterUserHandler } from '@/backend/handlers/userHandler'
 
 export const app = new OpenAPIHono().basePath('/api')
 
@@ -12,11 +13,12 @@ export const app = new OpenAPIHono().basePath('/api')
 
 app.openapi(API_ROUTES.auth.login, async (c) => {
   c.req.valid('json')
-
   return c.json({
     id: 'user-id-1',
   })
 })
+
+makeRegisterUserHandler(app)
 
 app.onError((err, c) => {
   return c.json({ message: err.message }, 500)

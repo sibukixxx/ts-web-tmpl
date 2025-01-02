@@ -5,6 +5,7 @@ import {
   userListResponseSchema,
 } from '@/shared/schemas/apis/auth-schemas'
 import { z } from 'zod'
+import { registerUserRoute } from '@/backend/routes/users'
 
 // API_ROUTES は簡易的な型と path を定義
 // export const API_ROUTES = {
@@ -77,6 +78,7 @@ const authLoginRoute = createRoute({
 export const API_ROUTES = {
   users: {
     getUsers: usersGetRoute,
+    register: registerUserRoute,
   },
   auth: {
     login: authLoginRoute,
