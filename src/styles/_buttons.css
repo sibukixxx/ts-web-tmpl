@@ -1,0 +1,6 @@
+@layer components {
+  .button-primary,
+  .button-icon-primary {
+    @apply inline-flex items-center rounded-3xl px-5 py-2 font-medium text-white outline-none outline-3 outline-offset-0 dark:active:text-white;
+  }
+}

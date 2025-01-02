@@ -22,17 +22,19 @@ export default function Home() {
 
   return (
     <div>
-      <Header />
-      <h1>Users</h1>
-      <ul>
-        {users.map((u) => (
-          <li key={u.id}>
-            {u.id}: {u.name}
-          </li>
-        ))}
-      </ul>
+      <Header currentRole={'admin'} />
+
       <main className="container mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold mb-6">ホーム</h1>
+
+        <ul>
+          {users.map((u) => (
+            <li key={u.id}>
+              {u.id}: {u.name}
+            </li>
+          ))}
+        </ul>
+
         <div className="bg-white p-6 rounded shadow">
           <p className="mb-4">
             現在のロール: <span className="font-semibold">{currentRole}</span>

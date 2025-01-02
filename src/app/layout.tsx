@@ -1,5 +1,6 @@
 import React from 'react'
 import type { Metadata } from 'next'
+import '@/styles/globals.css'
 import { NavigationProvider } from '@/providers/NavigationProvider'
 
 export const metadata: Metadata = {

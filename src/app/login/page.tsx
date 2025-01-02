@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react'
 import { useTypeSafeNavigation } from '@/hooks/useTypeSafeNavigation'
+import { LoginForm } from '@/components/LoginForm'
 
 export default function Login() {
   const { updateRole, navigateStatic } = useTypeSafeNavigation()
@@ -25,36 +26,45 @@ export default function Login() {
   return (
     <div>
       <main className="container mx-auto px-4 py-8">
-        <div className="max-w-md mx-auto">
-          <h1 className="text-2xl font-bold mb-6">ログイン</h1>
-          <form onSubmit={handleLogin} className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700">メールアドレス</label>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="mt-1 block w-full rounded border-gray-300 shadow-sm"
-                required
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">パスワード</label>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="mt-1 block w-full rounded border-gray-300 shadow-sm"
-                required
-              />
-            </div>
-            <button
-              type="submit"
-              className="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700"
-            >
-              ログイン
-            </button>
-          </form>
+        {/*<div className="max-w-md mx-auto">*/}
+        {/*  <h1 className="text-2xl font-bold mb-6">ログイン</h1>*/}
+        {/*  <form onSubmit={handleLogin} className="space-y-4">*/}
+        {/*    <div>*/}
+        {/*      <label className="block text-sm font-medium text-gray-700">メールアドレス</label>*/}
+        {/*      <input*/}
+        {/*        type="email"*/}
+        {/*        value={email}*/}
+        {/*        onChange={(e) => setEmail(e.target.value)}*/}
+        {/*        className="mt-1 block w-full rounded border-gray-300 shadow-sm"*/}
+        {/*        required*/}
+        {/*      />*/}
+        {/*    </div>*/}
+        {/*    <div>*/}
+        {/*      <label className="block text-sm font-medium text-gray-700">パスワード</label>*/}
+        {/*      <input*/}
+        {/*        type="password"*/}
+        {/*        value={password}*/}
+        {/*        onChange={(e) => setPassword(e.target.value)}*/}
+        {/*        className="mt-1 block w-full rounded border-gray-300 shadow-sm"*/}
+        {/*        required*/}
+        {/*      />*/}
+        {/*    </div>*/}
+        {/*    <button*/}
+        {/*      type="submit"*/}
+        {/*      className="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700"*/}
+        {/*    >*/}
+        {/*      ログイン*/}
+        {/*    </button>*/}
+        {/*  </form>*/}
+        {/*</div>*/}
+        <div className="min-h-screen flex items-center justify-center bg-gray-100">
+          <div className="max-w-md w-full space-y-8 p-8 bg-white shadow-lg rounded-lg">
+            <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+              アカウントにログイン
+            </h2>
+
+            <LoginForm />
+          </div>
         </div>
       </main>
     </div>
