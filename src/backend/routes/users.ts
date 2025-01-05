@@ -8,7 +8,7 @@ import { z } from '@/shared/schemas/zod-setup'
 
 export const registerUserRoute = createRoute({
   method: 'post',
-  path: '/api/users/register',
+  path: '/users/register',
   request: {
     body: {
       required: true,
@@ -43,7 +43,7 @@ export const registerUserRoute = createRoute({
 
 export const listUsersRoute = createRoute({
   method: 'get',
-  path: '/api/users',
+  path: '/users',
   responses: {
     200: {
       description: 'List of users',

@@ -14,13 +14,28 @@ export const userRegisterResponseSchema = z
   })
   .openapi('UserRegisterResponse')
 
+export const userSchema = z.object({
+  id: z.number(),
+  email: z.string().email(),
+  name: z.string().nullable().optional(),
+})
+
 export const userListResponseSchema = z
-  .array(
-    z.object({
-      id: z.string().uuid(),
-      name: z.string(),
-      email: z.string(),
-      createdAt: z.string(),
+  .object({
+    data: z.array(userSchema),
+    pagination: z.object({
+      page: z.number(),
+      pageSize: z.number(),
+      totalCount: z.number(),
+      totalPages: z.number(),
+      hasNextPage: z.boolean(),
+      hasPrevPage: z.boolean(),
     }),
-  )
+  })
   .openapi('UserListResponse')
+
+export const listUsersQuerySchema = z.object({
+  search: z.string().optional(),
+  page: z.coerce.number().int().min(1).default(1), // 1ページ目がデフォルト
+  pageSize: z.coerce.number().int().min(1).max(100).default(10), // 1~100まで
+})

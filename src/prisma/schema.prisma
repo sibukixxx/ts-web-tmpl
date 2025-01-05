@@ -7,9 +7,122 @@ datasource db {
   url      = "postgresql://postgres:postgres@localhost:54322/postgres"
 }
 
-model users {
+// ----------------- Enums -----------------
+
+enum PlanType {
+  FREE
+  PAID_NORMAL
+  PAID_FULL
+  CUSTOM
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  CANCELLED
+}
+
+// ----------------- Models -----------------
+
+// ユーザー
+model User {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   email     String   @unique
   name      String?
+
+  // Subscription とのリレーション (1:N)
+  subscriptions Subscription[]
+
+  // 実際のDBテーブル物理名を "users" にする
+  @@map("users")
+}
+
+// グループ
+model Group {
+  id        Int      @id @default(autoincrement())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Subscription とのリレーション (1:N)
+  subscriptions Subscription[]
+
+  // 実際のDBテーブル物理名を "groups" にする
+  @@map("groups")
+}
+
+// プラン (無料 / 有料 / カスタム など)
+model Plan {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  planType  PlanType
+  price     Int? // null 可: カスタムプランなどで値段が未定の場合
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Subscription とのリレーション (1:N)
+  subscriptions Subscription[]
+
+  // 実際のDBテーブル物理名を "plans" にする
+  @@map("plans")
+}
+
+// サブスクリプション (誰が / どのグループが / どのプランを契約しているか)
+model Subscription {
+  id Int @id @default(autoincrement())
+
+  // 紐づくPlan
+  planId Int
+  plan   Plan @relation(fields: [planId], references: [id])
+
+  // 紐づく User (オプション)
+  userId Int?
+  user   User? @relation(fields: [userId], references: [id])
+
+  // 紐づく Group (オプション)
+  groupId Int?
+  group   Group? @relation(fields: [groupId], references: [id])
+
+  startedAt DateTime  @default(now())
+  endedAt   DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  // Billing とのリレーション (1:N)
+  billings Billing[]
+
+  // 実際のDBテーブル物理名を "subscriptions" にする
+  @@map("subscriptions")
+}
+
+// 請求 / 売上情報 (課金履歴) を管理するテーブル
+model Billing {
+  id             Int          @id @default(autoincrement())
+  subscriptionId Int
+  subscription   Subscription @relation(fields: [subscriptionId], references: [id])
+
+  // 実際に請求/支払われた金額 (無料プランなら 0円)
+  amount Int
+
+  // 通貨 (必要な場合のみ)
+  currency String?
+
+  // 決済ステータス
+  status PaymentStatus
+
+  // 決済方法や備考 (クレカ, 銀行振込, etc.)
+  paymentMethod String?
+  note          String?
+
+  // 請求周期・期間など (月次/年次など)
+  billingPeriodStart DateTime?
+  billingPeriodEnd   DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // 実際のDBテーブル物理名を "billings" にする
+  @@map("billings")
 }

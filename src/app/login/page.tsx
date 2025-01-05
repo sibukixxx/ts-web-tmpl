@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react'
 import { useTypeSafeNavigation } from '@/hooks/useTypeSafeNavigation'
-import { LoginForm } from '@/components/LoginForm'
 
 export default function Login() {
   const { updateRole, navigateStatic } = useTypeSafeNavigation()
@@ -62,8 +61,6 @@ export default function Login() {
             <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
               アカウントにログイン
             </h2>
-
-            <LoginForm />
           </div>
         </div>
       </main>

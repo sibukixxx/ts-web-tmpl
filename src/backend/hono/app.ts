@@ -2,6 +2,7 @@ import { API_ROUTES } from '@/backend/routes'
 import { OpenAPIHono } from '@hono/zod-openapi'
 import { swaggerUI } from '@hono/swagger-ui'
 import { makeRegisterUserHandler } from '@/backend/handlers/userHandler'
+import { adminUserSearchApiHandler } from '@/backend/handlers/adminUserSearchHandler'
 
 export const app = new OpenAPIHono().basePath('/api')
 
@@ -19,6 +20,8 @@ app.openapi(API_ROUTES.auth.login, async (c) => {
 })
 
 makeRegisterUserHandler(app)
+
+adminUserSearchApiHandler(app)
 
 app.onError((err, c) => {
   return c.json({ message: err.message }, 500)

@@ -6,6 +6,7 @@ import {
 } from '@/shared/schemas/apis/auth-schemas'
 import { z } from 'zod'
 import { registerUserRoute } from '@/backend/routes/users'
+import { listUsersRoute } from '@/backend/routes/admin/users'
 
 // API_ROUTES は簡易的な型と path を定義
 // export const API_ROUTES = {
@@ -31,7 +32,7 @@ import { registerUserRoute } from '@/backend/routes/users'
 
 const usersGetRoute = createRoute({
   method: 'get',
-  path: '/api/users',
+  path: '/users',
   responses: {
     200: {
       description: 'Ok',
@@ -52,7 +53,7 @@ const usersGetRoute = createRoute({
 
 const authLoginRoute = createRoute({
   method: 'post',
-  path: '/api/auth/login',
+  path: '/auth/login',
   request: {
     body: {
       required: true,
@@ -82,6 +83,9 @@ export const API_ROUTES = {
   },
   auth: {
     login: authLoginRoute,
+  },
+  admin: {
+    getUserSearch: listUsersRoute,
   },
 } as const
 
