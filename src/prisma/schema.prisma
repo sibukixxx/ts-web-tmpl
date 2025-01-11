@@ -25,12 +25,80 @@ enum PaymentStatus {
 
 // ----------------- Models -----------------
 
+enum AuthProvider {
+  LOCAL
+  GOOGLE
+}
+
+//
+// RBAC: Role, Permission, RolePermission, UserRole の関係
+//
+model Role {
+  id              Int              @id @default(autoincrement())
+  name            String           @unique
+  rolePermissions RolePermission[]
+  userRoles       UserRole[]
+
+  @@map("roles")
+}
+
+model Permission {
+  id              Int              @id @default(autoincrement())
+  code            String           @unique
+  name            String
+  rolePermissions RolePermission[]
+
+  @@map("permissions")
+}
+
+model RolePermission {
+  id           Int @id @default(autoincrement())
+  roleId       Int
+  permissionId Int
+
+  role       Role       @relation(fields: [roleId], references: [id])
+  permission Permission @relation(fields: [permissionId], references: [id])
+
+  // 1つのロールが同じパーミッションを複数回持たないようユニーク制約
+  @@unique([roleId, permissionId])
+  @@map("role_permissions")
+}
+
+model UserRole {
+  id     Int @id @default(autoincrement())
+  userId Int
+  roleId Int
+
+  user User @relation(fields: [userId], references: [id])
+  role Role @relation(fields: [roleId], references: [id])
+
+  // 1つのユーザーが同じロールを重複して持たないように
+  @@unique([userId, roleId])
+  @@map("user_roles")
+}
+
 // ユーザー
 model User {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  email     String   @unique
-  name      String?
+  id            Int          @id @default(autoincrement())
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt // レコード更新時に自動で更新される
+  email         String       @unique
+  emailVerified Boolean      @default(false) // メールアドレス確認済みかどうか
+  name          String? // Display名など
+  googleId      String?      @unique // Google OAuth ユーザーIDを保持(重複防止のためunique)
+  passwordHash  String? // ローカルログイン時のみ使用（OAuthでは不要）
+  avatarUrl     String? // プロフィール画像URL
+  bio           String? // 自己紹介など
+  provider      AuthProvider @default(LOCAL) // デフォルトはLOCAL, もしくはGOOGLE
+
+  // RBAC: ユーザーが複数のロールを持てるようにする場合のリレーション
+  userRoles UserRole[]
+
+  // Group機能: ユーザーは複数のグループに属する可能性があるため中間テーブル
+  userGroups UserGroup[]
+
+  // Token関連: 1:N (ユーザーは複数のトークンを持ち得る)
+  UserToken UserToken[]
 
   // Subscription とのリレーション (1:N)
   subscriptions Subscription[]
@@ -39,18 +107,60 @@ model User {
   @@map("users")
 }
 
+model UserToken {
+  id        Int      @id @default(autoincrement())
+  token     String   @unique
+  type      String // e.g. "email_verify", "password_reset"
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  // User とのリレーション (1:N)
+  userId Int
+  user   User @relation(fields: [userId], references: [id])
+
+  @@map("user_tokens")
+}
+
 // グループ
 model Group {
-  id        Int      @id @default(autoincrement())
-  name      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id            Int      @id @default(autoincrement())
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  name          String?
+  isPlaceholder Boolean  @default(true)
+  // グループが本格利用されるかどうか、あるいは別のフラグ等に書き換えてもOK
 
-  // Subscription とのリレーション (1:N)
-  subscriptions Subscription[]
+  // Group に所属するユーザーとのリレーション
+  userGroups   UserGroup[]
+  Subscription Subscription[]
 
-  // 実際のDBテーブル物理名を "groups" にする
   @@map("groups")
+}
+
+model UserGroup {
+  id      Int @id @default(autoincrement())
+  userId  Int
+  groupId Int
+
+  user  User  @relation(fields: [userId], references: [id])
+  group Group @relation(fields: [groupId], references: [id])
+
+  // 1ユーザーと1グループの重複紐付けを防ぐ
+  @@unique([userId, groupId])
+  @@map("user_groups")
+}
+
+//
+// 退会（解約）したユーザーの履歴テーブル
+//
+model DeletedUser {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  email     String
+  deletedAt DateTime @default(now())
+  reason    String?
+
+  @@map("deleted_users")
 }
 
 // プラン (無料 / 有料 / カスタム など)
