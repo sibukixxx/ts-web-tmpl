@@ -10,18 +10,18 @@ export function adminUserSearchApiHandler(app: OpenAPIHono) {
     const { skip, take } = getPaginationParams(page, pageSize)
 
     //todo 改良余地あり。検索条件: name or email に部分一致 (case-insensitive)
-    const whereFilter = search
+    const searchCondition = search
       ? {
-          OR: [
-            { name: { contains: search, mode: Prisma.QueryMode.insensitive } },
-            { email: { contains: search, mode: Prisma.QueryMode.insensitive } },
-          ],
-        }
+        OR: [
+          { name: { contains: search, mode: 'insensitive' as Prisma.QueryMode } },
+          { email: { contains: search, mode: 'insensitive' as Prisma.QueryMode } },
+        ],
+      }
       : {}
 
     // 総件数
     const totalCount = await prisma.user.count({
-      where: whereFilter,
+      where: searchCondition,
     })
 
     // 該当ユーザー一覧の取得
