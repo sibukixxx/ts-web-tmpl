@@ -26,7 +26,7 @@ export function adminUserSearchApiHandler(app: OpenAPIHono) {
 
     // 該当ユーザー一覧の取得
     const users = await prisma.user.findMany({
-      where: whereFilter,
+      where: searchCondition,
       skip,
       take,
       orderBy: { id: 'asc' }, // 必要に応じてソート
