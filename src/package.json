@@ -4,6 +4,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "lint": "next lint",
     "lint:next": "next lint",
     "lint:all": "eslint . --ext .ts,.tsx --max-warnings=0",
     "format": "prettier --write .",
