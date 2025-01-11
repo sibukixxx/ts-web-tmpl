@@ -10,11 +10,22 @@ export function adminUserSearchApiHandler(app: OpenAPIHono) {
     const { skip, take } = getPaginationParams(page, pageSize)
 
     //todo 改良余地あり。検索条件: name or email に部分一致 (case-insensitive)
+    type SearchMode = 'insensitive' | 'default'
     const searchCondition = search
       ? {
         OR: [
-          { name: { contains: search, mode: 'insensitive' as Prisma.QueryMode } },
-          { email: { contains: search, mode: 'insensitive' as Prisma.QueryMode } },
+          {
+            name: {
+              contains: search,
+              mode: 'insensitive' as SearchMode
+            }
+          },
+          {
+            email: {
+              contains: search,
+              mode: 'insensitive' as SearchMode
+            }
+          },
         ],
       }
       : {}
