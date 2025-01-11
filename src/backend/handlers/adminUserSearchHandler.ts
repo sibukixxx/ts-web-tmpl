@@ -13,18 +13,8 @@ export function adminUserSearchApiHandler(app: OpenAPIHono) {
     const searchCondition = search
       ? {
         OR: [
-          {
-            name: {
-              contains: search,
-              mode: 'insensitive' // 型アサーションを削除
-            }
-          },
-          {
-            email: {
-              contains: search,
-              mode: 'insensitive' // 型アサーションを削除
-            }
-          },
+          { name: { contains: search, mode: 'insensitive' as Prisma.QueryMode } },
+          { email: { contains: search, mode: 'insensitive' as Prisma.QueryMode } },
         ],
       }
       : {}

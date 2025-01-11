@@ -18,9 +18,7 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     'plugin:prettier/recommended', // ← Prettier連携
   ],
-  plugins: ['@typescript-eslint', 'prettier'],
+  plugins: ['@typescript-eslint'],
   rules: {
-    // 独自に追加したいルールがあればここに書く
-    // 例: 'semi': ['error', 'never']
   },
 }
