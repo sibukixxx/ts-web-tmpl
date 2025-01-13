@@ -103,6 +103,10 @@ model User {
   // Subscription とのリレーション (1:N)
   subscriptions Subscription[]
 
+  teamMembers  TeamMember[]
+  invitations  Invitation[]  @relation("InvitedByUser")
+  activityLogs ActivityLog[]
+
   // 実際のDBテーブル物理名を "users" にする
   @@map("users")
 }
@@ -235,4 +239,73 @@ model Billing {
 
   // 実際のDBテーブル物理名を "billings" にする
   @@map("billings")
+}
+
+model Team {
+  id                   Int           @id @default(autoincrement())
+  name                 String        @db.VarChar(100)
+  createdAt            DateTime      @default(now()) @map("created_at")
+  updatedAt            DateTime      @default(now()) @map("updated_at")
+  stripeCustomerId     String?       @unique @map("stripe_customer_id")
+  stripeSubscriptionId String?       @unique @map("stripe_subscription_id")
+  stripeProductId      String?       @map("stripe_product_id")
+  planName             String?       @map("plan_name") @db.VarChar(50)
+  subscriptionStatus   String?       @map("subscription_status") @db.VarChar(20)
+  teamMembers          TeamMember[]
+  activityLogs         ActivityLog[]
+  invitations          Invitation[]
+
+  @@map("teams")
+}
+
+model TeamMember {
+  id       Int      @id @default(autoincrement())
+  userId   Int      @map("user_id")
+  teamId   Int      @map("team_id")
+  role     String   @db.VarChar(50)
+  joinedAt DateTime @default(now()) @map("joined_at")
+  user     User     @relation(fields: [userId], references: [id])
+  team     Team     @relation(fields: [teamId], references: [id])
+
+  @@map("team_members")
+}
+
+model ActivityLog {
+  id        Int      @id @default(autoincrement())
+  teamId    Int      @map("team_id")
+  userId    Int?     @map("user_id")
+  action    String
+  timestamp DateTime @default(now())
+  ipAddress String?  @map("ip_address") @db.VarChar(45)
+  team      Team     @relation(fields: [teamId], references: [id])
+  user      User?    @relation(fields: [userId], references: [id])
+
+  @@map("activity_logs")
+}
+
+model Invitation {
+  id        Int      @id @default(autoincrement())
+  teamId    Int      @map("team_id")
+  email     String   @db.VarChar(255)
+  role      String   @db.VarChar(50)
+  invitedBy Int      @map("invited_by")
+  invitedAt DateTime @default(now()) @map("invited_at")
+  status    String   @default("pending") @db.VarChar(20)
+  team      Team     @relation(fields: [teamId], references: [id])
+  inviter   User     @relation("InvitedByUser", fields: [invitedBy], references: [id])
+
+  @@map("invitations")
+}
+
+enum ActivityType {
+  SIGN_UP
+  SIGN_IN
+  SIGN_OUT
+  UPDATE_PASSWORD
+  DELETE_ACCOUNT
+  UPDATE_ACCOUNT
+  CREATE_TEAM
+  REMOVE_TEAM_MEMBER
+  INVITE_TEAM_MEMBER
+  ACCEPT_INVITATION
 }
