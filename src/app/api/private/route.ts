@@ -1,3 +1,5 @@
+// 管理系API のみ有効にするルート
+// 下記はダミー
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 

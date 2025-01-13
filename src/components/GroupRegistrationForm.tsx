@@ -16,7 +16,7 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
-import { supabase } from '@/lib/supabase'
+import { supabase } from '@/backend/lib/supabase'
 import { useToast } from '@/hooks/use-toast'
 
 export function GroupRegistrationForm() {

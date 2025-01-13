@@ -2,6 +2,7 @@ import { z } from '../zod-setup'
 
 export const userRegisterRequestSchema = z
   .object({
+    name: z.string().openapi({ example: 'test@example.com' }),
     email: z.string().email().openapi({ example: 'test@example.com' }),
     password: z.string().min(8).openapi({ example: 'password123' }),
   })
@@ -10,7 +11,7 @@ export const userRegisterRequestSchema = z
 export const userRegisterResponseSchema = z
   .object({
     id: z.string().uuid().nullable(),
-    email: z.string().email().openapi({ example: 'test@example.com' }),
+    email: z.string().email().openapi({ example: 'test@techvit.me' }),
   })
   .openapi('UserRegisterResponse')
 
@@ -39,3 +40,9 @@ export const listUsersQuerySchema = z.object({
   page: z.coerce.number().int().min(1).default(1), // 1ページ目がデフォルト
   pageSize: z.coerce.number().int().min(1).max(100).default(10), // 1~100まで
 })
+
+export const adminDashboardResponseSchema = z
+.object({
+  secret: z.string(),
+})
+.openapi('UserListResponse')

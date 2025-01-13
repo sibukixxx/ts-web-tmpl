@@ -1,12 +1,13 @@
 import { createRoute } from '@hono/zod-openapi'
 import {
+  infoResponseSchema,
   loginRequestSchema,
   loginResponseSchema,
   userListResponseSchema,
 } from '@/shared/schemas/apis/auth-schemas'
 import { z } from 'zod'
 import { registerUserRoute } from '@/backend/routes/users'
-import { listUsersRoute } from '@/backend/routes/admin/users'
+import {listDashboardRoute, listUsersRoute} from '@/backend/routes/admin/users'
 
 // API_ROUTES は簡易的な型と path を定義
 // export const API_ROUTES = {
@@ -76,8 +77,24 @@ const authLoginRoute = createRoute({
   },
 })
 
+const infoGetRoute = createRoute({
+  method: 'get',
+  path: '/info',
+  responses: {
+    200: {
+      description: 'Ok',
+      content: {
+        'application/json': {
+          schema: infoResponseSchema,
+        },
+      },
+    },
+  }
+})
+
 export const API_ROUTES = {
   users: {
+    getInfo: infoGetRoute,
     getUsers: usersGetRoute,
     register: registerUserRoute,
   },
@@ -85,6 +102,7 @@ export const API_ROUTES = {
     login: authLoginRoute,
   },
   admin: {
+    getDashboard: listDashboardRoute,
     getUserSearch: listUsersRoute,
   },
 } as const

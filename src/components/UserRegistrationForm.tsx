@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { userSchema, UserFormData } from '@/schemas/userSchema'
-import { useUserStore } from '@/stores/userStore'
+import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -16,11 +16,14 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import {API_ROUTES} from "@/backend/routes";
+import {useTypeSafeNavigation} from "@/hooks/useTypeSafeNavigation";
 
 export function UserRegistrationForm() {
-  const [isLoading, setIsLoading] = useState(false)
-  const setUser = useUserStore((state) => state.setUser)
+  const { updateRole, navigateStatic } = useTypeSafeNavigation()
 
+  const [isLoading, setIsLoading] = useState(false)
+  const router = useRouter()
   const form = useForm<UserFormData>({
     resolver: zodResolver(userSchema),
     defaultValues: {
@@ -34,14 +37,26 @@ export function UserRegistrationForm() {
   async function onSubmit(data: UserFormData) {
     setIsLoading(true)
     try {
-      // ここで実際のAPI呼び出しを行う代わりに、仮のAPIコールをシミュレートします
-      await new Promise((resolve) => setTimeout(resolve, 2000))
-      setUser(data)
-      console.log('ユーザー登録成功:', data)
-      // ここで成功メッセージを表示したり、ユーザーをリダイレクトしたりできます
+      if (data.password !== data.confirmPassword) {
+        throw new Error('パスワードと確認用パスワードが一致しません。')
+      }
+
+      const response = await fetch('/api/users/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: data.username,
+          email: data.email,
+          password: data.password,
+        }),
+      })
+      navigateStatic('public', 'login')
+
     } catch (error) {
       console.error('登録エラー:', error)
-      // エラーメッセージを表示する処理をここに追加できます
+      // エラーメッセージの表示などのエラーハンドリングを行う
     } finally {
       setIsLoading(false)
     }

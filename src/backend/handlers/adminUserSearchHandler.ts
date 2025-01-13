@@ -1,6 +1,6 @@
 import { OpenAPIHono } from '@hono/zod-openapi'
 import { API_ROUTES } from '@/backend/routes'
-import { Prisma, PrismaClient } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 import { getPaginationParams, createPaginationInfo } from '@/shared/utils/pagination'
 
 export function adminUserSearchApiHandler(app: OpenAPIHono) {

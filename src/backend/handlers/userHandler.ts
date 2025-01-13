@@ -16,6 +16,7 @@ export function makeRegisterUserHandler(app: OpenAPIHono) {
         { status: 400 }, // 明示的に `status` を指定
       )
     }
+    console.log(data)
 
     return c.json(
       {
