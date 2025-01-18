@@ -1,6 +1,6 @@
 import { checkAuth } from '@/backend/lib/auth/supabaseAuth'
-import {OpenAPIHono} from "@hono/zod-openapi";
-import {API_ROUTES} from "@/backend/routes";
+import { OpenAPIHono } from '@hono/zod-openapi'
+import { API_ROUTES } from '@/backend/routes'
 
 export const publicApp = new OpenAPIHono().basePath('/api')
 

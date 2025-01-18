@@ -1,47 +1,37 @@
-'use client';
+'use client'
 
-import {
-  createContext,
-  useContext,
-  ReactNode,
-  useState,
-  useEffect,
-} from 'react';
-import { use } from 'react';
-import type { User } from '@prisma/client';
+import { createContext, useContext, ReactNode, useState, useEffect } from 'react'
+import { use } from 'react'
+import type { User } from '@prisma/client'
 
 type UserContextType = {
-  user: User | null;
-  setUser: (user: User | null) => void;
-};
+  user: User | null
+  setUser: (user: User | null) => void
+}
 
-const UserContext = createContext<UserContextType | null>(null);
+const UserContext = createContext<UserContextType | null>(null)
 
 export function useUser(): UserContextType {
-  let context = useContext(UserContext);
+  let context = useContext(UserContext)
   if (context === null) {
-    throw new Error('useUser must be used within a UserProvider');
+    throw new Error('useUser must be used within a UserProvider')
   }
-  return context;
+  return context
 }
 
 export function UserProvider({
-                               children,
-                               userPromise,
-                             }: {
-  children: ReactNode;
-  userPromise: Promise<User | null>;
+  children,
+  userPromise,
+}: {
+  children: ReactNode
+  userPromise: Promise<User | null>
 }) {
-  let initialUser = use(userPromise);
-  let [user, setUser] = useState<User | null>(initialUser);
+  let initialUser = use(userPromise)
+  let [user, setUser] = useState<User | null>(initialUser)
 
   useEffect(() => {
-    setUser(initialUser);
-  }, [initialUser]);
+    setUser(initialUser)
+  }, [initialUser])
 
-  return (
-    <UserContext.Provider value={{ user, setUser }}>
-      {children}
-    </UserContext.Provider>
-  );
+  return <UserContext.Provider value={{ user, setUser }}>{children}</UserContext.Provider>
 }

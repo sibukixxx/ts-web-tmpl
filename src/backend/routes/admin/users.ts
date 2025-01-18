@@ -1,5 +1,9 @@
 import { createRoute } from '@hono/zod-openapi'
-import {userListResponseSchema, listUsersQuerySchema, adminDashboardResponseSchema} from '@/shared/schemas/apis/users'
+import {
+  userListResponseSchema,
+  listUsersQuerySchema,
+  adminDashboardResponseSchema,
+} from '@/shared/schemas/apis/users'
 
 export const listDashboardRoute = createRoute({
   method: 'get',
@@ -9,7 +13,7 @@ export const listDashboardRoute = createRoute({
       description: 'List of users',
       content: {
         'application/json': {
-          schema: adminDashboardResponseSchema
+          schema: adminDashboardResponseSchema,
         },
       },
     },

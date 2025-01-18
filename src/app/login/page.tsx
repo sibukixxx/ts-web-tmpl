@@ -3,7 +3,7 @@
 import React, { useState } from 'react'
 import { useTypeSafeNavigation } from '@/hooks/useTypeSafeNavigation'
 import { supabase } from '@/backend/lib/supabase'
-import {useAuthStore} from "@/stores/authStore";
+import { useAuthStore } from '@/stores/authStore'
 
 export default function Login() {
   const { updateRole, navigateStatic } = useTypeSafeNavigation()
@@ -78,14 +78,10 @@ export default function Login() {
 
             {/* コメントアウトを外したフォーム部分 */}
             <form onSubmit={handleLogin} className="space-y-4">
-              {errorMessage && (
-                <p className="text-red-500 text-sm">{errorMessage}</p>
-              )}
+              {errorMessage && <p className="text-red-500 text-sm">{errorMessage}</p>}
 
               <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  メールアドレス
-                </label>
+                <label className="block text-sm font-medium text-gray-700">メールアドレス</label>
                 <input
                   type="email"
                   value={email}
@@ -95,9 +91,7 @@ export default function Login() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  パスワード
-                </label>
+                <label className="block text-sm font-medium text-gray-700">パスワード</label>
                 <input
                   type="password"
                   value={password}

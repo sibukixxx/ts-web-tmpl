@@ -42,7 +42,7 @@ export const listUsersQuerySchema = z.object({
 })
 
 export const adminDashboardResponseSchema = z
-.object({
-  secret: z.string(),
-})
-.openapi('UserListResponse')
+  .object({
+    secret: z.string(),
+  })
+  .openapi('UserListResponse')

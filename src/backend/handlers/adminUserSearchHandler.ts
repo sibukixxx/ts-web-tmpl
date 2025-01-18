@@ -1,6 +1,6 @@
 import { OpenAPIHono } from '@hono/zod-openapi'
 import { API_ROUTES } from '@/backend/routes'
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from '@prisma/client'
 import { getPaginationParams, createPaginationInfo } from '@/shared/utils/pagination'
 
 export function adminUserSearchApiHandler(app: OpenAPIHono) {
@@ -13,21 +13,21 @@ export function adminUserSearchApiHandler(app: OpenAPIHono) {
     type SearchMode = 'insensitive' | 'default'
     const searchCondition = search
       ? {
-        OR: [
-          {
-            name: {
-              contains: search,
-              mode: 'insensitive' as SearchMode
-            }
-          },
-          {
-            email: {
-              contains: search,
-              mode: 'insensitive' as SearchMode
-            }
-          },
-        ],
-      }
+          OR: [
+            {
+              name: {
+                contains: search,
+                mode: 'insensitive' as SearchMode,
+              },
+            },
+            {
+              email: {
+                contains: search,
+                mode: 'insensitive' as SearchMode,
+              },
+            },
+          ],
+        }
       : {}
 
     // 総件数

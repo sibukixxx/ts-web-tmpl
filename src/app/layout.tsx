@@ -2,7 +2,7 @@ import React from 'react'
 import type { Metadata } from 'next'
 import '@/styles/globals.css'
 import { NavigationProvider } from '@/providers/NavigationProvider'
-import { ToastContextProvider } from "@/providers/ToastContext";
+import { ToastContextProvider } from '@/providers/ToastContext'
 
 export const metadata: Metadata = {
   title: 'Hono | nextjs',
@@ -17,8 +17,8 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <body>
-      <ToastContextProvider>
-        <NavigationProvider>{children}</NavigationProvider>
+        <ToastContextProvider>
+          <NavigationProvider>{children}</NavigationProvider>
         </ToastContextProvider>
       </body>
     </html>

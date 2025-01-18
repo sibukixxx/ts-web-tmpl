@@ -7,7 +7,7 @@ import {
 } from '@/shared/schemas/apis/auth-schemas'
 import { z } from 'zod'
 import { registerUserRoute } from '@/backend/routes/users'
-import {listDashboardRoute, listUsersRoute} from '@/backend/routes/admin/users'
+import { listDashboardRoute, listUsersRoute } from '@/backend/routes/admin/users'
 
 // API_ROUTES は簡易的な型と path を定義
 // export const API_ROUTES = {
@@ -89,7 +89,7 @@ const infoGetRoute = createRoute({
         },
       },
     },
-  }
+  },
 })
 
 export const API_ROUTES = {

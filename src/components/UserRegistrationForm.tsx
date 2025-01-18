@@ -16,8 +16,8 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import {API_ROUTES} from "@/backend/routes";
-import {useTypeSafeNavigation} from "@/hooks/useTypeSafeNavigation";
+import { API_ROUTES } from '@/backend/routes'
+import { useTypeSafeNavigation } from '@/hooks/useTypeSafeNavigation'
 
 export function UserRegistrationForm() {
   const { updateRole, navigateStatic } = useTypeSafeNavigation()
@@ -53,7 +53,6 @@ export function UserRegistrationForm() {
         }),
       })
       navigateStatic('public', 'login')
-
     } catch (error) {
       console.error('登録エラー:', error)
       // エラーメッセージの表示などのエラーハンドリングを行う

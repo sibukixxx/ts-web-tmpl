@@ -4,11 +4,7 @@ const prisma = new PrismaClient()
 async function main() {
   // 1. Role の作成/更新
   //    例: "guest", "user", "admin" の3種を用意。
-  const rolesData = [
-    { name: 'guest' },
-    { name: 'user' },
-    { name: 'admin' },
-  ]
+  const rolesData = [{ name: 'guest' }, { name: 'user' }, { name: 'admin' }]
 
   for (const roleData of rolesData) {
     const upsertedRole = await prisma.role.upsert({

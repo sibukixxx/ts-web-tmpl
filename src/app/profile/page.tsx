@@ -132,9 +132,7 @@ export default function Profile() {
                   type="text"
                   className="mt-1 block w-full rounded border-gray-300 shadow-sm"
                   value={user.avatarUrl ?? ''}
-                  onChange={(e) =>
-                    setUser({ ...user, avatarUrl: e.target.value })
-                  }
+                  onChange={(e) => setUser({ ...user, avatarUrl: e.target.value })}
                 />
               </div>
               <p className="mt-4">

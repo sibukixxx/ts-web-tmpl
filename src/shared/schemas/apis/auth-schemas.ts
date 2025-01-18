@@ -24,7 +24,7 @@ export const userListResponseSchema = z
   .openapi('UserListResponse')
 
 export const infoResponseSchema = z
-.object({
-  title: z.string(),
-})
-.openapi('UserListResponse')
+  .object({
+    title: z.string(),
+  })
+  .openapi('UserListResponse')

@@ -33,6 +33,6 @@ export const useAuthStore = create(
     {
       name: 'auth-storage', // localStorage に保存されるキー名
       // storage: createJSONStorage(() => sessionStorage) などでsessionStorageにも変更可
-    }
-  )
+    },
+  ),
 )

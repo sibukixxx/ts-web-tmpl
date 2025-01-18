@@ -5,11 +5,7 @@ import { Toast, ToastProvider } from '@/components/ui/toast'
 
 const ToastContext = createContext<any>(null)
 
-export function ToastContextProvider({
-                                       children,
-                                     }: {
-  children: React.ReactNode
-}) {
+export function ToastContextProvider({ children }: { children: React.ReactNode }) {
   const [toasts, setToasts] = useState<any[]>([])
 
   return (

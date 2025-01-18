@@ -16,7 +16,7 @@ interface ToastProps {
   title?: string
   description?: string
   action?: React.ReactNode
-  [key: string]: any  // その他のプロパティを許容
+  [key: string]: any // その他のプロパティを許容
 }
 
 export function Toaster() {
