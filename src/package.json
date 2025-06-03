@@ -17,7 +17,9 @@
     "db:reset": "backend/infrastructure/db/prisma migrate reset --force",
     "db:migrate:dev": "backend/infrastructure/db/prisma migrate dev",
     "db:seed": "node --require ts-node/register backend/infrastructure/db/prisma/seed.ts",
-    "db:reset:full": "sh scripts/reset-db.sh"
+    "db:reset:full": "sh scripts/reset-db.sh",
+    "test": "vitest",
+    "test:watch": "vitest watch"
   },
   "dependencies": {
     "@hono/zod-openapi": "^0.18.3",

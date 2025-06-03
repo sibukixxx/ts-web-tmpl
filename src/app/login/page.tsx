@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react'
 import { useTypeSafeNavigation } from '@/hooks/useTypeSafeNavigation'
-import { supabase } from '@/backend/lib/supabase'
+import { supabase } from '@/shared/utils/supabase'
 import { useAuthStore } from '@/stores/authStore'
 
 export default function Login() {
@@ -46,16 +46,9 @@ export default function Login() {
         },
       })
 
-      //todo サーバー側が Set-Cookie: HttpOnly で refresh_token を付与。
-      //todo サーバーが Cookie 内の refresh_token を利用して新たにアクセストークンを発行し、フロントに返す。
-      //todo サーバー側で refresh_token を無効化（DB削除など）し、Cookie を破棄 (Set-Cookie: refresh_token=; Max-Age=0 等)。
-
-      // ここでロールを更新する処理（例として admin ユーザーかどうかを判定）
-      if (email.includes('admin')) {
-        updateRole('admin')
-      } else {
-        updateRole('user')
-      }
+      // ユーザーのロールを取得（メタデータまたはカスタムクレームから）
+      const userRole = data.session.user.user_metadata?.role || 'user'
+      updateRole(userRole === 'admin' ? 'admin' : 'user')
 
       // ログイン成功時にリダイレクト
       navigateStatic('public', 'home')
@@ -81,23 +74,29 @@ export default function Login() {
               {errorMessage && <p className="text-red-500 text-sm">{errorMessage}</p>}
 
               <div>
-                <label className="block text-sm font-medium text-gray-700">メールアドレス</label>
+                <label htmlFor="email" className="block text-sm font-medium text-gray-700">メールアドレス</label>
                 <input
+                  id="email"
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="mt-1 block w-full rounded border-gray-300 shadow-sm"
+                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="you@example.com"
                   required
+                  disabled={isLoading}
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700">パスワード</label>
+                <label htmlFor="password" className="block text-sm font-medium text-gray-700">パスワード</label>
                 <input
+                  id="password"
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="mt-1 block w-full rounded border-gray-300 shadow-sm"
+                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="••••••••"
                   required
+                  disabled={isLoading}
                 />
               </div>
               <button
@@ -108,6 +107,36 @@ export default function Login() {
                 {isLoading ? 'ログイン中...' : 'ログイン'}
               </button>
             </form>
+
+            <div className="mt-6">
+              <div className="relative">
+                <div className="absolute inset-0 flex items-center">
+                  <div className="w-full border-t border-gray-300" />
+                </div>
+                <div className="relative flex justify-center text-sm">
+                  <span className="px-2 bg-white text-gray-500">または</span>
+                </div>
+              </div>
+
+              <div className="mt-6 space-y-2">
+                <div className="text-center">
+                  <button
+                    onClick={() => navigateStatic('public', 'register')}
+                    className="font-medium text-blue-600 hover:text-blue-500"
+                  >
+                    新規アカウントを作成
+                  </button>
+                </div>
+                <div className="text-center">
+                  <button
+                    onClick={() => {/* TODO: パスワードリセット機能 */}}
+                    className="text-sm text-gray-600 hover:text-gray-500"
+                  >
+                    パスワードをお忘れですか？
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </main>

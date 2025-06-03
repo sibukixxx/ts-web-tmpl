@@ -2,8 +2,9 @@
 
 import { useTypeSafeNavigation } from '@/hooks/useTypeSafeNavigation'
 import { useState } from 'react'
-import { useRouter } from 'next/router'
 import { twMerge } from 'tailwind-merge'
+import { supabase } from '@/shared/utils/supabase'
+import { useAuthStore } from '@/stores/authStore'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -21,9 +22,23 @@ export function Header({}: HeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(true)
   const { navigateStatic, currentRole, updateRole } = useTypeSafeNavigation()
 
-  const handleLogout = () => {
-    updateRole('admin')
-    navigateStatic('public', 'login')
+  const clearSession = useAuthStore((state) => state.clearSession)
+
+  const handleLogout = async () => {
+    try {
+      // Supabaseからログアウト
+      const { error } = await supabase.auth.signOut()
+      if (error) throw error
+
+      // ローカルストアのセッションをクリア
+      clearSession()
+      
+      // ゲストロールに更新してログインページへリダイレクト
+      updateRole('guest')
+      navigateStatic('public', 'login')
+    } catch (error) {
+      console.error('ログアウトエラー:', error)
+    }
   }
 
   const navItems = [
